@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Beni Seviyor Musun?</title>
+  <style>
+    body {
+      background-color: #fff0f5;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 100px;
+      overflow-x: hidden;
+      position: relative;
+    }
+    h1 {
+      color: #e91e63;
+    }
+    button {
+      background-color: #e91e63;
+      color: white;
+      padding: 12px 24px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      position: relative;
+      z-index: 10;
+    }
+    #videoDiv {
+      margin-top: 30px;
+      display: none;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Kalp stili */
+    .heart {
+      position: fixed;
+      font-size: 24px;
+      color: #e91e63;
+      animation: rise 3s linear forwards;
+      user-select: none;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.9;
+    }
+
+    @keyframes rise {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.9;
+      }
+      100% {
+        transform: translateY(-150vh) scale(1.5);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Beni seviyor musun?</h1>
+  <button onclick="ileri()">Evet, seviyorum</button>
+
+  <div id="videoDiv">
+    <video width="480" height="320" controls autoplay>
+      <source src="video.mp4" type="video/mp4" />
+      Tarayıcınız video etiketini desteklemiyor.
+    </video>
+  </div>
+
+  <script>
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.textContent = "❤️";
+
+      // Kalbin çıkacağı yatay konum (0px - viewport genişliği)
+      heart.style.left = Math.random() * window.innerWidth + "px";
+      heart.style.fontSize = 14 + Math.random() * 24 + "px";
+
+      document.body.appendChild(heart);
+
+      // 3 saniye sonra kalbi kaldır
+      setTimeout(() => {
+        heart.remove();
+      }, 3000);
+    }
+
+    let kalpAnimasyonu;
+
+    function ileri() {
+      // Video göster
+      document.getElementById("videoDiv").style.display = "block";
+
+      // Kalp animasyonunu başlat
+      kalpAnimasyonu = setInterval(createHeart, 300);
+
+      // Videonun bitiminde kalp animasyonunu durdur
+      const video = document.querySelector("#videoDiv video");
+      video.addEventListener("ended", () => {
+        clearInterval(kalpAnimasyonu);
+      });
+    }
+  </script>
+</body>
+</html>
